@@ -1,0 +1,329 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>X TKJ B SAGA — Cyber Portal</title>
+  <meta name="description" content="Portal kelas X TKJ B SAGA bertema cyber: pengumuman, jadwal, proyek, dan kontak." />
+  <style>
+    /* ====== Reset & Base ====== */
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --bg: #0b0f14;
+      --panel: rgba(18, 24, 31, 0.6);
+      --text: #e6f1ff;
+      --muted: #a9b3c1;
+      --accent1: #00e5ff;  /* cyan */
+      --accent2: #ff3ef6;  /* magenta */
+      --accent3: #5cff6b;  /* green */
+      --glow: 0 0 15px rgba(0, 229, 255, 0.6), 0 0 30px rgba(255, 62, 246, 0.3);
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,0.35);
+      --grid-gap: clamp(14px, 2vw, 22px);
+    }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, "Apple Color Emoji", "Segoe UI Emoji";
+      color: var(--text);
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(0,229,255,0.06), transparent 60%),
+                  radial-gradient(1000px 500px at 90% 20%, rgba(255,62,246,0.06), transparent 60%),
+                  radial-gradient(800px 500px at 50% 100%, rgba(92,255,107,0.06), transparent 60%),
+                  #090c12;
+      overflow-x: hidden;
+    }/* subtle animated grid */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  background:
+    linear-gradient(transparent 15px, rgba(0,229,255,0.06) 16px, transparent 17px),
+    linear-gradient(90deg, transparent 15px, rgba(255,62,246,0.06) 16px, transparent 17px);
+  background-size: 22px 22px;
+  mask-image: radial-gradient(circle at center, rgba(0,0,0,0.7), transparent 80%);
+  pointer-events: none;
+  animation: drift 40s linear infinite;
+}
+@keyframes drift { from { transform: translateY(0); } to { transform: translateY(22px); } }
+
+a { color: var(--accent1); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ====== Topbar ====== */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(90deg, rgba(0,229,255,0.06), rgba(255,62,246,0.06));
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav {
+  max-width: 1100px; margin: 0 auto; padding: 10px 16px;
+  display: grid; grid-template-columns: 1fr auto; align-items: center;
+}
+.nav-links { display: flex; gap: 14px; flex-wrap: wrap; }
+.chip {
+  padding: 8px 12px; border: 1px solid rgba(255,255,255,0.1); border-radius: 999px;
+  background: rgba(255,255,255,0.04); transition: 0.2s ease; font-size: 14px;
+}
+.chip:hover { transform: translateY(-1px); box-shadow: var(--glow); }
+
+/* ====== Hero ====== */
+.hero { max-width: 1100px; margin: 28px auto; padding: 0 16px 8px; }
+.title {
+  font-size: clamp(34px, 6vw, 64px);
+  line-height: 1.05; font-weight: 800; margin: 24px 0 10px;
+  letter-spacing: 0.5px;
+  /* RGB gradient text */
+  background: conic-gradient(from 0deg,
+      #ff004c, #ff9900, #ffee00, #33ff00, #00ffee, #004cff, #b700ff, #ff004c);
+  background-size: 200% 200%;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: hueShift 6s linear infinite;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.05));
+}
+@keyframes hueShift { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+.subtitle { color: var(--muted); font-size: clamp(16px, 2.4vw, 20px); max-width: 800px; }
+
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+.btn {
+  padding: 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: var(--shadow); cursor: pointer; color: var(--text); font-weight: 600;
+  transition: 0.25s ease; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: var(--glow); }
+
+/* ====== Sections ====== */
+section { max-width: 1100px; margin: 0 auto; padding: 22px 16px 8px; }
+
+.grid {
+  display: grid; gap: var(--grid-gap);
+  grid-template-columns: repeat(12, 1fr);
+}
+.card {
+  grid-column: span 12;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: clamp(14px, 2vw, 18px);
+  position: relative; overflow: hidden;
+}
+.card::after {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  background: conic-gradient(from 180deg, rgba(0,229,255,0.25), rgba(255,62,246,0.25), rgba(92,255,107,0.25), rgba(0,229,255,0.25));
+  filter: blur(22px); opacity: 0.25; mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  padding: 1px;
+}
+
+.card h3 { margin: 0 0 8px; font-size: 18px; letter-spacing: 0.3px; }
+.muted { color: var(--muted); }
+
+/* responsive columns */
+@media (min-width: 640px) {
+  .col-6-sm { grid-column: span 6; }
+}
+@media (min-width: 900px) {
+  .col-4-md { grid-column: span 4; }
+  .col-6-md { grid-column: span 6; }
+}
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.08); text-align: left; }
+th { color: #a6e8ff; font-weight: 700; background: rgba(0, 229, 255, 0.06); }
+tr:hover td { background: rgba(255, 62, 246, 0.05); }
+
+/* Footer */
+footer { text-align: center; color: var(--muted); padding: 40px 16px 60px; }
+
+/* Tiny neon divider */
+.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(0,229,255,0.6), rgba(255,62,246,0.6), rgba(92,255,107,0.6), transparent); opacity: 0.6; margin: 18px 0; }
+
+/* Tag styles */
+.tag { display: inline-block; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.04); font-size: 12px; margin-right: 6px; }
+
+/* Marquee for running text */
+.marquee { width: 100%; overflow: hidden; white-space: nowrap; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03); border-radius: 12px; }
+.marquee span { display: inline-block; padding: 10px 14px; animation: slide 20s linear infinite; }
+@keyframes slide { from { transform: translateX(100%);} to { transform: translateX(-100%);} }
+
+/* Code-look blocks */
+.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  background: rgba(0,0,0,0.35);
+  border: 1px dashed rgba(255,255,255,0.15);
+  padding: 10px 12px; border-radius: 10px; font-size: 13px; color: #c4f7d0;
+}
+
+  </style>
+</head>
+<body>
+  <!-- ====== NAVBAR ====== -->
+  <div class="topbar">
+    <div class="nav">
+      <div class="logo" aria-label="Logo teks">
+        <strong>X TKJ B SAGA</strong>
+      </div>
+      <div class="nav-links">
+        <a class="chip" href="#pengumuman">Pengumuman</a>
+        <a class="chip" href="#jadwal">Jadwal</a>
+        <a class="chip" href="#proyek">Proyek</a>
+        <a class="chip" href="#anggota">Anggota</a>
+        <a class="chip" href="#kontak">Kontak</a>
+      </div>
+    </div>
+  </div>  <!-- ====== HERO ====== -->  <header class="hero">
+    <div class="marquee" aria-label="Running text">
+      <span>Selamat datang di portal kelas <b>X TKJ B SAGA</b> · Semangat belajar! · Keep it clean, kind, and creative · Stay cyber, stay curious ⚡</span>
+    </div>
+    <h1 class="title" aria-label="Judul RGB">X TKJ B SAGA — CYBER PORTAL</h1>
+    <p class="subtitle">Tempat kumpul informasi kelas: pengumuman, jadwal pelajaran, progres proyek, dan arsip pembelajaran. Desain bertema <i>cyber</i></p>
+    <div class="cta-row">
+      <a class="btn" href="#pengumuman">Lihat Pengumuman</a>
+      <a class="btn" href="#proyek">Cek Proyek Kelas</a>
+    </div>
+  </header>  <!-- ====== PENGUMUMAN ====== -->  <section id="pengumuman">
+    <h2 class="sr-only">Pengumuman</h2>
+    <div class="grid">
+      <article class="card col-6-md">
+        <h3>📢 Pengumuman Terbaru</h3>
+        <div class="divider"></div>
+        <ul>
+          <li>TUGAS PRESENTSI BAHASA JAWA: <b>JUMAT</b>, SIAPKAN MATERI TERBAIK KALIAN</li>
+          <li>TUGAS KKA: <b>KAMIS</b>, PRESENTASI.</li>
+          <li>TUGAS SENI BUDAYA<b>KAMIS, JAM KE 2</b>.</li>
+        </ul>
+      </article>
+      <article class="card col-6-md">
+        <h3>🧭 Misi Minggu Ini</h3>
+        <div class="divider"></div>
+        <p class="muted">Fokus pada tiga hal berikut:</p>
+        <ol>
+          <li>MENJADI LEBIH BAIK DARI MINGGU LALU.</li>
+          <li>BISA JADI JUARA LOMBA.</li>
+          <li>MENJAGA TUTUR KATA DAN SOPAN SANTUN</li>
+        </ol>
+      </article>
+    </div>
+  </section>  <!-- ====== JADWAL PELAJARAN ====== -->  <section id="jadwal">
+    <div class="grid">
+      <div class="card">
+        <h3>🗓 Jadwal Pelajaran</h3>
+        <div class="divider"></div>
+        <div style="overflow:auto">
+          <table aria-label="Tabel Jadwal">
+            <thead>
+              <tr>
+                <th>Hari</th>
+                <th>Mapel</th>
+                <th>Guru</th>
+                <th>Jam</th>
+                <th>Ruangan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Senin</td><td>Jaringan Dasar</td><td>Bu/Pa —</td><td>07.30–09.10</td><td>Lab TKJ</td></tr>
+              <tr><td>Senin</td><td>PAI</td><td>—</td><td>09.20–10.50</td><td>Kelas</td></tr>
+              <tr><td>Selasa</td><td>Administrasi Sistem</td><td>—</td><td>08.20–10.00</td><td>Lab TKJ</td></tr>
+              <tr><td>Rabu</td><td>Pemrograman Dasar</td><td>—</td><td>07.30–09.10</td><td>Lab TKJ</td></tr>
+              <tr><td>Kamis</td><td>Bahasa Indonesia</td><td>—</td><td>08.20–10.00</td><td>Kelas</td></tr>
+              <tr><td>Jumat</td><td>PKN</td><td>—</td><td>07.30–09.10</td><td>Kelas</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="muted" style="margin-top:10px">*Silakan sesuaikan nama guru & jam sesuai sekolah.</p>
+      </div>
+    </div>
+  </section>  <!-- ====== PROYEK KELAS ====== -->  <section id="proyek">
+    <div class="grid">
+      <article class="card col-6-md col-4-md">
+        <h3>⚙ Website SAGA</h3>
+        <p class="muted">Portal statis HTML/CSS/JS https://smknesaga.sch.id/.</p>
+        <div class="tag">front-end</div>
+        <div class="tag">akses cepat</div>
+        <div class="tag">tanpa foto</div>
+      </article>
+      <article class="card col-6-md col-4-md">
+        <h3>🛡 Simulasi Keamanan Jaringan</h3>
+        <p class="muted">Topologi dasar, firewall rules, dan monitoring log.</p>
+        <div class="tag">networking</div>
+        <div class="tag">security</div>
+      </article>
+      <article class="card col-6-md col-4-md">
+        <h3>💾 Arsip Materi</h3>
+        <p class="muted">Ringkasan materi per bab dalam format markdown.</p>
+        <div class="tag">dokumentasi</div>
+        <div class="tag">kolaborasi</div>
+      </article>
+    </div>
+  </section>  <!-- ====== ANGGOTA KELAS ====== -->  <section id="anggota">
+    <div class="grid">
+      <div class="card">
+        <h3>👥 Anggota Kelas</h3>
+        <div class="divider"></div>
+        <div class="grid">
+          <div class="card col-6-sm col-4-md">
+            <h4>Ketua Kelas</h4>
+            <p class="muted">Nama Siswa</p>
+            <div class="code">AZAM.</div>
+          </div>
+          <div class="card col-6-sm col-4-md">
+            <h4>Wakil Ketua</h4>
+            <p class="muted">Nama Siswa</p>
+            <div class="code">BELUM ADA.</div>
+          </div>
+          <div class="card col-6-sm col-4-md">
+            <h4>Sekretaris</h4>
+            <p class="muted">Nama Siswa</p>
+            <div class="code">NANDA DAN SEKAR</div>
+          </div>
+          <div class="card col-6-sm col-4-md">
+            <h4>Bendahara</h4>
+            <p class="muted">Nama Siswa</p>
+            <div class="code">arinda dan cesa</div>
+          </div>
+        </div>
+        <p class="muted" style="margin-top:8px">Tambahkan daftar lengkap sesuai formasi kelas.</p>
+      </div>
+    </div>
+  </section>  <!-- ====== KONTAK ====== -->  <section id="kontak">
+    <div class="grid">
+      <div class="card col-6-md">
+        <h3>📬 Hubungi Pengurus</h3>
+        <div class="divider"></div>
+        <form onsubmit="event.preventDefault(); alert('Pesan terkirim! (demo)');">
+          <label>Nama
+            <input required type="text" placeholder="Nama kamu" style="width:100%; margin-top:6px; margin-bottom:10px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); color: var(--text);" />
+          </label>
+          <label>Pesan
+            <textarea required placeholder="Tulis pesan…" rows="4" style="width:100%; margin-top:6px; margin-bottom:10px; padding:10px 12px; border-radius:10px; border:1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.06); color: var(--text);"></textarea>
+          </label>
+          <button class="btn" type="submit">Kirim</button>
+        </form>
+      </div>
+      <div class="card col-6-md">
+        <h3>ℹ Tentang Portal</h3>
+        <div class="divider"></div>
+        <p class="muted">Dibuat oleh siswa-siswi X TKJ B SAGA untuk memudahkan koordinasi dan dokumentasi. Desain ringan, responsif, tanpa foto.</p>
+        <div class="code">tips: Tekan <kbd>Ctrl</kbd>+<kbd>K</kbd> .</div>
+      </div>
+    </div>
+  </section>  <footer>
+    <div class="divider"></div>
+    <small>© <span id="year"></span> X TKJ B SAGA • Made with ❤ in new era</small>
+  </footer>  <script>
+    // Tahun dinamis
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Smooth scroll untuk anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href');
+        const el = document.querySelector(id);
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script></body>
+</html>
